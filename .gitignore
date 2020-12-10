@@ -27,6 +27,5 @@ yarn-error.log*
 .gitignore
 
 /public
-/src/components
 /src/images
 
