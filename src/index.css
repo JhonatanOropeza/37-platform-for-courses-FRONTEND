@@ -1,0 +1,165 @@
+/*      PRINCIPAL       */
+body{
+  width: 100vw;
+  height: 100vh;
+  background-color: #F3F3F3;
+  overflow-x: hidden;
+}
+
+/*      NAVBAR    */
+.BARRA_DE_NAVEGACION{
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+}
+/*      FOOTER    */
+footer {
+  position: fixed;
+  height: 25px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
+
+body{
+  overflow-y: auto;
+}
+body::-webkit-scrollbar{
+  width: 7px;
+}
+body::-webkit-scrollbar-thumb {
+  background: #ADADAD;
+  border-radius: 10px;
+}
+
+.Main_Centered{
+  justify-content: center;
+  align-items: center;
+  height:90vh;
+  border: 1px solid rgb(255, 102, 0);
+}
+/*      ERROR     */
+.MensajeErrorBorder {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: #CBCBCB;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+/*      NAVBAR    */
+.NavbarButtonWithoutStyle{
+  border: none;
+  background: none;
+  outline: 'none'
+}
+
+/*      FOOTER    */
+.FOOTER{
+  justify-content: space-around;
+}
+
+/*      BOTONES    */
+.BOTON_FOCUS:focus {
+  outline: none;
+  box-shadow: none;
+}
+.BOTON_ROSA{
+  background-color: #e83e8c;
+  border-color: #e83e8c;
+}
+.BOTON_NARANJA{
+  background-color: #ff7518;
+  border-color: #ff7518;
+}
+.BOTON_MORADO{
+  background-color: #9954bb;
+  border-color: #9954bb;
+}
+.BOTON_VERDE{
+  background-color: #3fb618;
+  border-color: #3fb618;
+}
+
+/*     COMPONENTE: curso    */
+
+.curso_titulo{
+  border: 1px solid #e83e8c;
+  border-radius: 25px;
+}
+.curso_video{
+  max-width: 850px;
+  position: relative;
+  margin: auto;
+}
+.CURSO_CONTAINER_LECCION{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.CURSO_ICONO{
+  max-width: 85px;
+  min-width: 50px;
+  max-height: 85px;
+  min-height: 50px;
+}
+
+.AVANCES_ICON_CENTERED{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+/*     EXAMEN-MODAL    */
+.modal-header{
+  background: #007bff;
+  color: white;
+}
+.LOG_CONTAINER{
+  max-width: 376px;
+}
+.LOG_BTN_FACEBOOK{
+  background-color: #3b5999;
+  color: #ffffff;
+}
+.LOG_BTN_GOOGLE{
+  background-color: #DB4437;
+  color: #ffffff;
+}
+.LOG_ICON{
+  display: flex;
+  justify-content: center;
+}
+.LOG_ICON_ROUNDED{
+  border: 1px solid #ced4da;
+}
+.MENSAJE_DE_ALERTA{
+  position: absolute;
+  z-index: 150;
+  padding-top: 3.5rem;
+  width: 100%;
+}
+.MENSAJE_DE_ALERTA_BOTON_1{
+  color: #721c24;
+  display: flex;
+  align-Content: center;
+}
+.MENSAJE_DE_ALERTA_BOTON_2{
+  color: #856404;
+  display: flex;
+  align-Content: center;
+}
+.MENSAJE_DE_ALERTA_BOTON_3{
+  color: #155724;
+  display: flex;
+  align-Content: center;
+}

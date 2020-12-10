@@ -24,4 +24,9 @@ yarn-error.log*
 
 # Varialbes de entorno de
 .env
-/src
+.gitignore
+
+/public
+/src/components
+/src/images
+
