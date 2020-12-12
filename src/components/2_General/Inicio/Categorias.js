@@ -11,16 +11,16 @@ export default function Categorias() {
             <h5 className="pt-2">Categorías de cursos</h5>
             <div className="row d-flex justify-content-center">
                 <div className="col-12 col-md-6 col-lg-4 border border-dark pt-1">
-                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_ROSA">Categoría 1</button>
+                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_ROSA">Categoría A</button>
                 </div>
                 <div className="col-12 col-md-6 col-lg-4 border border-dark pt-1">
-                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_NARANJA">Categoría 2</button>
+                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_NARANJA">Categoría B</button>
                 </div>
                 <div className="col-12 col-md-6 col-lg-4 border border-dark pt-1">
-                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_MORADO">Categoría 3</button>
+                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_MORADO">Categoría C</button>
                 </div>
                 <div className="col-12 col-md-6 col-lg-4 border border-dark pt-1">
-                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_VERDE">Categoría 4</button>
+                    <button type="button" className="btn btn-block BOTO_FOCUS BOTON_VERDE">Categoría D</button>
                 </div>
             </div>
         </div>

@@ -27,28 +27,28 @@ export default function Cursos() {
                     <img src={A2} alt="" className="rounded" /> <p>Curso 2</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={A3} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={A3} alt="" className="rounded" /> <p>Curso 3</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={A4} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={A4} alt="" className="rounded" /> <p>Curso 4</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={B1} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={B1} alt="" className="rounded" /> <p>Curso 5</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={B2} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={B2} alt="" className="rounded" /> <p>Curso 6</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={B3} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={B3} alt="" className="rounded" /> <p>Curso 7</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={C1} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={C1} alt="" className="rounded" /> <p>Curso 8</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={C2} alt="" className="rounded" /> <p>Curso 2</p>
+                    <img src={C2} alt="" className="rounded" /> <p>Curso 9</p>
                 </div>
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={D1} alt="" className="rounded" /> <p>Curso 2</p> 
+                    <img src={D1} alt="" className="rounded" /> <p>Curso 10</p> 
                 </div>
             </div>
         </div>
