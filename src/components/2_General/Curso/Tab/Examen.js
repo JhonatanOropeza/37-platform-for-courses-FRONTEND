@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Card, Form } from 'react-bootstrap';
 
-import examenChico from '../../../images/iconos/examenChico.png';
+import examenChico from '../../../../images/iconos/examenChico.png';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------

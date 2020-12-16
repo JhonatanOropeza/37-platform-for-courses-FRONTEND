@@ -1,55 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Axios from 'axios';
 
-import A1 from '../../../images/cursos/A1.fw.png';
-import A2 from '../../../images/cursos/A2.fw.png';
-import A3 from '../../../images/cursos/A3.fw.png';
-import A4 from '../../../images/cursos/A4.fw.png';
-import B1 from '../../../images/cursos/B1.fw.png';
-import B2 from '../../../images/cursos/B2.fw.png';
-import B3 from '../../../images/cursos/B3.fw.png';
-import C1 from '../../../images/cursos/C1.fw.png';
-import C2 from '../../../images/cursos/C2.fw.png';
-import D1 from '../../../images/cursos/D1.fw.png'
+import Loading from '../../1_Helpers/Loading';
 //------------------- 1.- CSS Style && .env ---------------
+const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Cursos() {
+export default function Cursos({ mostrarMensaje }) {
+    const [cursos, setCursos] = useState([]);
+    const [cargandoCursos, setCargandoCursos] = useState(true);
     //--------------------- 3.1- Functions---------------
+    useEffect(() => {
+        async function cargarCursos() {
+            try {
+                setCargandoCursos(true);
+                const { data } = await Axios.get(baseURL + '/curso/getCursos');
+                setCursos(data.result);
+                setCargandoCursos(false);
+            } catch (error) {
+                console.log(error);
+                mostrarMensaje(error.response.data.message, 1);
+                setCargandoCursos(false);
+            }
+        }
+        cargarCursos();
+    }, [mostrarMensaje])
     //---------------------- 3.2 Return------------------
+    if (cargandoCursos) {
+        <Loading/>
+    }
     return (
         <div className="container border border-success text-center">
             <h5 className="pt-2 ">Todos los cursos</h5>
             <div className="row d-flex justify-content-center">
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={A1} alt="" className="rounded" /><p>Curso 1</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={A2} alt="" className="rounded" /> <p>Curso 2</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={A3} alt="" className="rounded" /> <p>Curso 3</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={A4} alt="" className="rounded" /> <p>Curso 4</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={B1} alt="" className="rounded" /> <p>Curso 5</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={B2} alt="" className="rounded" /> <p>Curso 6</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={B3} alt="" className="rounded" /> <p>Curso 7</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={C1} alt="" className="rounded" /> <p>Curso 8</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={C2} alt="" className="rounded" /> <p>Curso 9</p>
-                </div>
-                <div className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark">
-                    <img src={D1} alt="" className="rounded" /> <p>Curso 10</p> 
-                </div>
+                {
+                    cursos.map((curso) => (
+                        <Link 
+                        key={curso._id}
+                        to={`/curso/${curso._id}`}
+                        className="col-6 col-sm-4 col-md-3 col-lg-2 border border-dark"
+                        >
+                            <img src={curso.linkOfIcon} alt="" className="rounded" /><p>{curso.nombre}</p>
+                        </Link>
+                    ))
+                }
             </div>
         </div>
     );

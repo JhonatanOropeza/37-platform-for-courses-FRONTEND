@@ -8,14 +8,14 @@ import Cursos from './Cursos';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Inicio({ usuario }) {
+export default function Inicio({ usuario, mostrarMensaje }) {
     //--------------------- 3.1- Functions---------------
     //---------------------- 3.2 Return------------------
     return (
         <Main X_Y_Centered={false}>
             <Carousel></Carousel>
             <Categorias></Categorias>
-            <Cursos></Cursos>
+            <Cursos mostrarMensaje={mostrarMensaje}></Cursos>
         </Main>
     );
 }

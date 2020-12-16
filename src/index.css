@@ -87,9 +87,37 @@ body::-webkit-scrollbar-thumb {
 
 /*     COMPONENTE: curso    */
 
-.curso_titulo{
+.curso_titulo_rosa{
   border: 1px solid #e83e8c;
   border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+.curso_titulo_naranja{
+  border: 1px solid #ff7518;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+.curso_titulo_morado{
+  border: 1px solid #9954bb;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+.curso_titulo_verde{
+  border: 1px solid#3fb618;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
 }
 .curso_video{
   max-width: 850px;
@@ -162,4 +190,9 @@ body::-webkit-scrollbar-thumb {
   color: #155724;
   display: flex;
   align-Content: center;
+}
+.BUTTON_OF_MATERIAL{
+  padding: 0;
+  border: none;
+  background: none;
 }

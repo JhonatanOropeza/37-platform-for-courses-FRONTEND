@@ -157,7 +157,7 @@ function NOTAuthenticated({ usuario, mostrarMensaje, login, logup, logAuth0 }) {
   return (
     <Switch>
       <Route
-        exact path="/curso"
+        exact path="/curso/:id"
         render={props => <Curso {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Curso>}
       />
       <Route
