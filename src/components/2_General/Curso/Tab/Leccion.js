@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import video from '../../../../images/iconos/videoChico.png';
 import infografia from '../../../../images/iconos/infografiaChico.png';
@@ -8,7 +8,7 @@ import Examen from './Examen';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Leccion({ nivel, changeMaterialIndex, usuario }) {
+export default function Leccion({ nivel, changeMaterialIndex, usuario, greenButton, buttonToGreen }) {
     //--------------------- 3.1- Functions---------------
     const lecciones = nivel.LECCIONES;
     //---------------------- 3.2 Return------------------
@@ -17,6 +17,9 @@ export default function Leccion({ nivel, changeMaterialIndex, usuario }) {
             {
                 lecciones.map((leccion, i) => (
                     <div key={i} className="row ">
+                        {/** ---------------------------- */}
+                        {/** -------- MATERIALES -------- */}
+                        {/** ---------------------------- */}
                         <div className="col-4 col-md-2 col-lg-2  CURSO_CONTAINER_LECCION">
                             <h6>{leccion.nombre}</h6>
                         </div>
@@ -27,11 +30,16 @@ export default function Leccion({ nivel, changeMaterialIndex, usuario }) {
                                     ? (
                                         <MaterialesIconYESUser materiales={leccion.MATERIALES} changeMaterialIndex={changeMaterialIndex} />
                                     ) : (
-                                        <MaterialesIconNOUser materiales={leccion.MATERIALES} changeMaterialIndex={changeMaterialIndex} />
+                                        <MaterialesIconNOUser materiales={leccion.MATERIALES} changeMaterialIndex={changeMaterialIndex} buttonToGreen={buttonToGreen} greenButton={greenButton} />
                                     )
                                 }
+                                {/** ---------------------------- */}
+                                {/** ---------- EXAMEN ---------- */}
+                                {/** ---------------------------- */}
+                                {
+                                    usuario && <Examen leccion={leccion} />
+                                }
 
-                                <Examen />
                             </div>
                         </div>
                     </div>
@@ -42,11 +50,11 @@ export default function Leccion({ nivel, changeMaterialIndex, usuario }) {
 }
 
 //---------------------------- 4 Other components -------------------------------------
-function MaterialesIconNOUser({ materiales, changeMaterialIndex }) {
-    const [idGreen, setIdGreen] = useState(null);
+function MaterialesIconNOUser({ materiales, changeMaterialIndex, buttonToGreen, greenButton }) {
+    
     function onClickButton(material) {
         changeMaterialIndex(material);
-        setIdGreen(material._id);
+        buttonToGreen(material._id)
     }
     return (
         <>
@@ -56,7 +64,7 @@ function MaterialesIconNOUser({ materiales, changeMaterialIndex }) {
                         {material.tipo === 1 &&
                             <button className="BUTTON_OF_MATERIAL">
                                 {
-                                    material._id === idGreen
+                                    material._id === greenButton
                                         ? (<img src={video} alt="" onClick={() => onClickButton(material)} className="bg-success rounded img-fluid" />)
                                         : (<img src={video} alt="" onClick={() => onClickButton(material)} className="bg-secondary rounded img-fluid" />)
                                 }
@@ -65,7 +73,7 @@ function MaterialesIconNOUser({ materiales, changeMaterialIndex }) {
                         {material.tipo === 2 &&
                             <button className="BUTTON_OF_MATERIAL">
                                 {
-                                    material._id === idGreen
+                                    material._id === greenButton
                                         ? (<img src={infografia} alt="" onClick={() => onClickButton(material)} className="bg-success rounded img-fluid" />)
                                         : (<img src={infografia} alt="" onClick={() => onClickButton(material)} className="bg-secondary rounded img-fluid" />)
                                 }
@@ -74,7 +82,7 @@ function MaterialesIconNOUser({ materiales, changeMaterialIndex }) {
                         {material.tipo === 3 &&
                             <button className="BUTTON_OF_MATERIAL">
                                 {
-                                    material._id === idGreen
+                                    material._id === greenButton
                                         ? (<img src={actividad} alt="" onClick={() => onClickButton(material)} className="bg-success rounded img-fluid" />)
                                         : (<img src={actividad} alt="" onClick={() => onClickButton(material)} className="bg-secondary rounded img-fluid" />)
                                 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoIosAttach } from "react-icons/io";
 
@@ -7,12 +7,15 @@ import { IoIosAttach } from "react-icons/io";
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
 export default function Navbar({ usuario, logout }) {
     const [isNavCollapsed, setIsNavCollapsed] = useState(false);
-    const NavCollapseFalse = () => {setIsNavCollapsed(false);}
-    const NavCollapseTrue = () => {setIsNavCollapsed(true);}
+    const NavCollapseFalse = () => { setIsNavCollapsed(false); }
+    const NavCollapseTrue = () => { setIsNavCollapsed(true); }
     //--------------------- 3.1- Functions---------------
     //---------------------- 3.2 Return------------------
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-primary BARRA_DE_NAVEGACION" >
+        <nav
+            className="navbar navbar-expand-lg navbar-light bg-primary BARRA_DE_NAVEGACION"
+            onMouseLeave={NavCollapseFalse}
+        >
             <Link className="navbar-brand" to="/">
                 <h4 className="mb-0">Plataforma de cursos</h4>
             </Link>
@@ -26,8 +29,8 @@ export default function Navbar({ usuario, logout }) {
                     </li>
                     {
                         usuario
-                            ? <YesAuthenticated logout={logout} NavCollapseFalse={NavCollapseFalse}/>
-                            : <NotAuthenticated NavCollapseFalse={NavCollapseFalse}/>
+                            ? <YesAuthenticated logout={logout} NavCollapseFalse={NavCollapseFalse} usuario={usuario} />
+                            : <NotAuthenticated NavCollapseFalse={NavCollapseFalse} />
                     }
                 </ul>
             </div>
@@ -35,19 +38,19 @@ export default function Navbar({ usuario, logout }) {
     )
 }
 //------------------- 4 Other components ------------------
-function YesAuthenticated({logout, NavCollapseFalse}) {
+function YesAuthenticated({ logout, NavCollapseFalse, usuario }) {
     return (
         <>
             <li className="nav-item">
-                <Link className="nav-link text-light" to="/advances" onClick={NavCollapseFalse}><IoIosAttach />Avances</Link>
+                <Link className="nav-link text-light" to={`/advances/${usuario._id}`} onClick={NavCollapseFalse}><IoIosAttach />Avances</Link>
             </li>
-            <button 
-            className="nav-item bg-transparent border-0 p-0 text-right"
-            onClick={()=>{
-                logout();
-                NavCollapseFalse();
-            }}
-            style={{ outline: 'none' }}
+            <button
+                className="nav-item bg-transparent border-0 p-0 text-right"
+                onClick={() => {
+                    logout();
+                    NavCollapseFalse();
+                }}
+                style={{ outline: 'none' }}
             >
                 <div className="nav-link text-light"><IoIosAttach />Cerrar sesión</div>
             </button>
@@ -55,7 +58,7 @@ function YesAuthenticated({logout, NavCollapseFalse}) {
     );
 }
 
-function NotAuthenticated({NavCollapseFalse}) {
+function NotAuthenticated({ NavCollapseFalse }) {
     return (
         <>
             <li className="nav-item">

@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
-import { FiFacebook, FiTwitter } from 'react-icons/fi';
-import FacebookLogin from 'react-facebook-login';
 
 import ImagenUsuario from '../../../images/iconos/usuario.png';
 
 import Main from '../../1_Helpers/Main'
+import FacebookButton from './FacebookButton';
+import GoogleButton from './GoogleButton';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Logup({ logup, mostrarMensaje }) {
+export default function Logup({ logup, mostrarMensaje, logAuth0 }) {
     const [datosLogup, setDatosLogup] = useState(
         {
             nombre: '',
-            apellidos:'',
+            apellidos: '',
             correo: '',
             contrasena: ''
         }
-    )
+    );
+    const [enviandoPeticion, setEnviandoPeticion] = useState(false);
     //--------------------- 3.1- Functions---------------
-    const responseFacebook = (response) => {
-        //Variables de session y redireccionamiento
-        console.log(response);
-    }
-
     function handleInputChange(e) {
         setDatosLogup({
             ...datosLogup,//Destruturación, pone las propiedades iguales
@@ -32,10 +28,13 @@ export default function Logup({ logup, mostrarMensaje }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        if (enviandoPeticion) { return }
         try {
+            setEnviandoPeticion(true);
             await logup(datosLogup.nombre, datosLogup.apellidos, datosLogup.correo, datosLogup.contrasena);
+            setEnviandoPeticion(false);
         } catch (error) {
-            //console.log(error.response.data)
+            setEnviandoPeticion(false);
             mostrarMensaje(error.response.data.message, 1);
             console.log(error)
         }
@@ -55,11 +54,11 @@ export default function Logup({ logup, mostrarMensaje }) {
                     </div>
                     <div className="form-group mb-2">
                         <label className="mb-1">Nombre (s):</label>
-                        <input type="text" name="nombre" className="form-control" id="exampleNombres" aria-describedby="emailHelp" placeholder="Ingrese correo" onChange={handleInputChange} required />
+                        <input type="text" name="nombre" className="form-control" id="exampleNombres" aria-describedby="emailHelp" placeholder="Ingrese nombre (s)" onChange={handleInputChange} required />
                     </div>
                     <div className="form-group mb-2">
                         <label className="mb-1">Apellidos:</label>
-                        <input type="text" name="apellidos" className="form-control" id="exampleApellidos" aria-describedby="emailHelp" placeholder="Ingrese correo" onChange={handleInputChange} required />
+                        <input type="text" name="apellidos" className="form-control" id="exampleApellidos" aria-describedby="emailHelp" placeholder="Ingrese apellidos" onChange={handleInputChange} required />
                     </div>
                     <div className="form-group mb-3">
                         <label className="mb-1">Contraseña:</label>
@@ -75,18 +74,11 @@ export default function Logup({ logup, mostrarMensaje }) {
                 {/** ------------------------------------- */}
                 {/**                FACEBOOK               */}
                 {/** ------------------------------------- */}
-                <FacebookLogin
-                    appId="289194595654964"
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    callback={responseFacebook}
-                    textButton="Inicia sesión con Facebook"
-                    icon={<FiFacebook />}
-                    cssClass="btn btn-block LOG_BTN_FACEBOOK" />
+                <FacebookButton logAuth0={logAuth0} mostrarMensaje={mostrarMensaje} />
                 {/** ------------------------------------- */}
                 {/**                GOOGLE               */}
                 {/** ------------------------------------- */}
-                <button type="button" className="btn btn-block LOG_BTN_TWITTER mt-3"><FiTwitter /> Inicia sesión con Twitter</button>
+                <GoogleButton logAuth0={logAuth0} mostrarMensaje={mostrarMensaje} />
             </div>
         </Main>
     );

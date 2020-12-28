@@ -13,6 +13,7 @@ export default function Login({login, mostrarMensaje, logAuth0}) {
         correo: '',
         contrasena:''
     });
+    const [enviandoPeticion, setEnviandoPeticion] = useState(false);
     //--------------------- 3.1- Functions---------------
     const handleInputChange = (e) => {
         setDatosLogin({
@@ -20,11 +21,16 @@ export default function Login({login, mostrarMensaje, logAuth0}) {
             [e.target.name]: e.target.value
         });
     }
+
     const handleSubmit = async(e) => {
         e.preventDefault();
+        if (enviandoPeticion) {return}
         try {
+            setEnviandoPeticion(true);
             await login(datosLogin.correo, datosLogin.contrasena);
+            setEnviandoPeticion(false);
         } catch (error) {
+            setEnviandoPeticion(false);
             mostrarMensaje(error.response.data.message, 1)
             console.log( error);
         }

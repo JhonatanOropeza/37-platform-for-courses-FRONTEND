@@ -40,8 +40,8 @@ function App() {
         return;
       }
       try {
-        //const { data } = await Axios.get(baseURL + '/inside/whoami');
-        //setUsuario(data.user);
+        const { data } = await Axios.get(baseURL + '/alumno/auth/whoami');
+        setUsuario(data.user);
         setCargandoUsuario(false);
       } catch (error) {
         console.log(error)
@@ -75,19 +75,18 @@ function App() {
   }
 
   async function logAuth0(token, tipo) {
-    if (tipo==='facebook') {
+    if (tipo === 'facebook') {
       const { data } = await Axios.post(baseURL + `/alumno/authFB/log/token?access_token=${token}`);
-      console.log(data);
+      console.log('Log with Face');
       setUsuario(data);
       setToken(token);
     }
-    if (tipo==='google') {
+    if (tipo === 'google') {
       const { data } = await Axios.post(baseURL + `/alumno/authGoogle/log/token?access_token=${token}`);
-      console.log(data);
+      console.log('Log with Google');
       setUsuario(data);
       setToken(token);
     }
-      
   }
 
   function mostrarMensaje(mensaje, tipo) {
@@ -142,7 +141,7 @@ function YESAuthenticated({ usuario, mostrarMensaje }) {
         render={props => <Avances {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Avances>}
       />
       <Route
-        path="/curso/:usuario"
+        path="/curso/:id"
         render={props => <Curso {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Curso>}
       />
       <Route
@@ -153,12 +152,12 @@ function YESAuthenticated({ usuario, mostrarMensaje }) {
     </Switch>
   );
 }
-function NOTAuthenticated({ usuario, mostrarMensaje, login, logup, logAuth0 }) {
+function NOTAuthenticated({ mostrarMensaje, login, logup, logAuth0 }) {
   return (
     <Switch>
       <Route
         exact path="/curso/:id"
-        render={props => <Curso {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Curso>}
+        render={props => <Curso {...props} mostrarMensaje={mostrarMensaje}></Curso>}
       />
       <Route
         path="/login"
@@ -166,11 +165,11 @@ function NOTAuthenticated({ usuario, mostrarMensaje, login, logup, logAuth0 }) {
       />
       <Route
         path="/logup"
-        render={props => <Logup {...props} mostrarMensaje={mostrarMensaje} logup={logup}></Logup>}
+        render={props => <Logup {...props} mostrarMensaje={mostrarMensaje} logup={logup} logAuth0={logAuth0}></Logup>}
       />
       <Route
         path="/"
-        render={props => <Inicio {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Inicio>}
+        render={props => <Inicio {...props} mostrarMensaje={mostrarMensaje}></Inicio>}
         default
       />
     </Switch>

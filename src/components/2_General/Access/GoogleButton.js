@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { GoogleLogin } from 'react-google-login';
 
 import { FaGoogle } from 'react-icons/fa';
@@ -6,11 +6,16 @@ import { FaGoogle } from 'react-icons/fa';
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
 export default function GoogleButton({ logAuth0, mostrarMensaje }) {
+    const [enviandoPeticion, setEnviandoPeticion] = useState(false);
     //--------------------- 3.1- Functions---------------
     const responseGoogle = async (response) => {
+        if (enviandoPeticion) {return}
         try {
-            await logAuth0(response.accessToken, 'google')
+            setEnviandoPeticion(true);
+            await logAuth0(response.accessToken, 'google');
+            setEnviandoPeticion(false);
         } catch (error) {
+            setEnviandoPeticion(false);
             mostrarMensaje('Error al cargar datos del usuario',1);
             console.log(error);
         }

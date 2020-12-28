@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Leccion from './Leccion';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
 export default function Contenido({ curso, changeMaterialIndex, usuario }) {
+    const [greenButton, setGreenButton] = useState(null);
     //--------------------- 3.1- Functions---------------
+    function buttonToGreen(id) {
+        setGreenButton(id);
+    }
     //---------------------- 3.2 Return------------------
     return (
         <div className="container mt-2">
@@ -51,6 +55,7 @@ export default function Contenido({ curso, changeMaterialIndex, usuario }) {
                 <div className="tab-pane fade p-2" id="temario" role="tabpanel" aria-labelledby="temario-tab">
                     {curso.contenido}
                 </div>
+                {/** ------------ Imprimiendo cada NIVEL ------------- */}
                 {
                     curso.NIVELES.map((nivel, i) => (
                         <div
@@ -60,7 +65,13 @@ export default function Contenido({ curso, changeMaterialIndex, usuario }) {
                             role="tabpanel"
                             aria-labelledby={`nivel${i + 1}-tab`}
                         >
-                            <Leccion nivel={nivel} changeMaterialIndex={changeMaterialIndex} usuario={usuario}/>
+                            <Leccion
+                                nivel={nivel}
+                                changeMaterialIndex={changeMaterialIndex}
+                                usuario={usuario}
+                                greenButton={greenButton}
+                                buttonToGreen={buttonToGreen}
+                            />
                         </div>
                     ))
                 }

@@ -53,8 +53,10 @@ export default function Curso({ mostrarMensaje, match, usuario }) {
             <div className="container pt-2 curso_container_principal">
                 <ContornoYNombreDelCurso curso={curso} />
                 <Material materialIndex={materialIndex}/>
+                {/** inicio TAB */}
                 <Contenido curso={curso} changeMaterialIndex={changeMaterialIndex} usuario={usuario}/>
-                <SignificadoColores />
+                {/** fin TAB */}
+                <SignificadoColores usuario={usuario}/>
             </div>
         </Main>
     );
