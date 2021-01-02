@@ -120,7 +120,7 @@ body::-webkit-scrollbar-thumb {
   -o-border-radius: 25px;
 }
 .curso_video{
-  max-width: 850px;
+  max-width: 800px;
   position: relative;
   margin: auto;
 }
@@ -196,3 +196,9 @@ body::-webkit-scrollbar-thumb {
   border: none;
   background: none;
 }
+ul .UL-SQUARE{
+  list-style: square;
+} 
+ul .UL-DISC{
+  list-style: disc;
+} 

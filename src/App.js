@@ -8,7 +8,7 @@ import Main from './components/1_Helpers/Main';
 import Mensaje from './components/1_Helpers/Mensaje';
 import Navbar from './components/1_Helpers/Navbar';
 import Inicio from './components/2_General/Inicio/Inicio';
-import Curso from './components/2_General/Curso/Curso';
+import Curso from './components/2_General/Curso/Pestañas/1Curso';
 import Avances from './components/3_Inside/Avances';
 import Prueba from './components/3_Inside/Prueba';
 import Login from './components/2_General/Access/Login';
@@ -142,22 +142,22 @@ function YESAuthenticated({ usuario, mostrarMensaje }) {
       />
       <Route
         path="/curso/:id"
-        render={props => <Curso {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Curso>}
+        render={props => <Curso {...props} usuario={usuario} mostrarMensaje={mostrarMensaje} />}
       />
       <Route
         path="/"
-        render={props => <Inicio {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Inicio>}
+        render={props => <Inicio {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}/>}
         default
       />
     </Switch>
   );
 }
-function NOTAuthenticated({ mostrarMensaje, login, logup, logAuth0 }) {
+function NOTAuthenticated({ usuario, mostrarMensaje, login, logup, logAuth0 }) {
   return (
     <Switch>
       <Route
-        exact path="/curso/:id"
-        render={props => <Curso {...props} mostrarMensaje={mostrarMensaje}></Curso>}
+        path="/curso/:id"
+        render={props => <Curso {...props} mostrarMensaje={mostrarMensaje} />}
       />
       <Route
         path="/login"
@@ -169,7 +169,7 @@ function NOTAuthenticated({ mostrarMensaje, login, logup, logAuth0 }) {
       />
       <Route
         path="/"
-        render={props => <Inicio {...props} mostrarMensaje={mostrarMensaje}></Inicio>}
+        render={props => <Inicio {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Inicio>}
         default
       />
     </Switch>

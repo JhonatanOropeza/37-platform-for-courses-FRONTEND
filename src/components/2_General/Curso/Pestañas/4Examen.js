@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { VscChromeClose, VscCheck } from 'react-icons/vsc';
 import Loading from '../../../1_Helpers/Loading';
 import examenChico from '../../../../images/iconos/examenChico.png';
+import BotonEnviarRespuesta from '../../../1_Helpers/BotonEnviarRespuesta';
 //------------------- 1.- CSS Style && .env ---------------
 const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
@@ -29,6 +30,7 @@ export default function Examen({ leccion }) {
     ]);
     const [calificacionDeRespuestas, setCalificacionDeRespuestas] = useState([]);
     const [examPoints, setExamPoints] = useState(null);
+    const [edoInicialBotonCalificarExamen, setEdoInicialBotonCalificarExamen] = useState(false);
     const [calificandoExamen, setCalificandoExamen] = useState(false);
     const [disabledInput, setDisabledInput] = useState(false);
     //--------------------- 3.1- Functions---------------
@@ -40,7 +42,7 @@ export default function Examen({ leccion }) {
             setCargandoPreguntas(false);
         } catch (error) {
             setCargandoPreguntas(false);
-            console.log(error);
+            console.log(error.response.data.message);
         }
     }
 
@@ -53,6 +55,7 @@ export default function Examen({ leccion }) {
         setExamPoints(null);
         setDisabledInput(false);
         setShow(false);
+        setEdoInicialBotonCalificarExamen(false);
     }
     const handleShow = () => setShow(true);
 
@@ -88,6 +91,7 @@ export default function Examen({ leccion }) {
                 const { data } = await Axios.post(baseURL + `/pregunta/auth/qualifyTest/${leccion._id}`, respuestas);
                 setCalificacionDeRespuestas(data.qualification)
                 setExamPoints(data.examPoints);
+                setEdoInicialBotonCalificarExamen(true);
                 setDisabledInput(true);
                 setCalificandoExamen(false);
             } catch (error) {
@@ -141,7 +145,15 @@ export default function Examen({ leccion }) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <BotonEnviarRespuesta calificarExamen={calificarExamen}/>
+                    <BotonEnviarRespuesta
+                        colorDelBoton="primary"
+                        cargando={calificandoExamen}
+                        mensajeBotonInicio="Calificar examen"
+                        mensajeCargando="Calificando examen"
+                        mensajeBotonFinal="Examen finalizado"
+                        botonSinPresionarFALSE={edoInicialBotonCalificarExamen}
+                        functionOnClick={calificarExamen}
+                    />
                     <Button variant="secondary" onClick={handleClose}>Cerrar</Button>
                 </Modal.Footer>
             </Modal>
@@ -225,20 +237,15 @@ function MostrarCalificaion({ examPoints }) {
         return <></>
     } else {
         return (
-            <h5 className="">Calificación: {} 
+            <h5 className="">Calificación: {}
                 <b>{examPoints}.</b>
                 {
-                    examPoints >= 7 
-                    ? (<div className="text-success" style={{display:'inline'}}> Aprobado</div>) 
-                    : (<div className="text-danger" style={{display:'inline'}}> No aprobado</div>)
+                    examPoints >= 7
+                        ? (<div className="text-success" style={{ display: 'inline' }}> Aprobado</div>)
+                        : (<div className="text-danger" style={{ display: 'inline' }}> No aprobado</div>)
                 }
             </h5>
         );
     }
 }
 
-function BotonEnviarRespuesta({calificarExamen}){
-    return(
-        <Button variant="primary" onClick={calificarExamen}>Enviar respuestas</Button>
-    );
-}

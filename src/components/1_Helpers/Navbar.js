@@ -9,6 +9,7 @@ export default function Navbar({ usuario, logout }) {
     const [isNavCollapsed, setIsNavCollapsed] = useState(false);
     const NavCollapseFalse = () => { setIsNavCollapsed(false); }
     const NavCollapseTrue = () => { setIsNavCollapsed(true); }
+    const NavCollapseBoth = () => { setIsNavCollapsed(!isNavCollapsed)}
     //--------------------- 3.1- Functions---------------
     //---------------------- 3.2 Return------------------
     return (
@@ -19,7 +20,7 @@ export default function Navbar({ usuario, logout }) {
             <Link className="navbar-brand" to="/">
                 <h4 className="mb-0">Plataforma de cursos</h4>
             </Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" onClick={NavCollapseTrue}>
+            <button onClick={NavCollapseTrue} aria-expanded={!isNavCollapsed ? true : false} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className={`${!isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNavDropdown">
@@ -29,8 +30,8 @@ export default function Navbar({ usuario, logout }) {
                     </li>
                     {
                         usuario
-                            ? <YesAuthenticated logout={logout} NavCollapseFalse={NavCollapseFalse} usuario={usuario} />
-                            : <NotAuthenticated NavCollapseFalse={NavCollapseFalse} />
+                            ? <YesAuthenticated logout={logout} NavCollapseBoth={NavCollapseBoth} usuario={usuario} />
+                            : <NotAuthenticated NavCollapseBoth={NavCollapseBoth} />
                     }
                 </ul>
             </div>
@@ -38,17 +39,17 @@ export default function Navbar({ usuario, logout }) {
     )
 }
 //------------------- 4 Other components ------------------
-function YesAuthenticated({ logout, NavCollapseFalse, usuario }) {
+function YesAuthenticated({ logout, NavCollapseBoth, usuario }) {
     return (
         <>
             <li className="nav-item">
-                <Link className="nav-link text-light" to={`/advances/${usuario._id}`} onClick={NavCollapseFalse}><IoIosAttach />Avances</Link>
+                <Link className="nav-link text-light" to={`/advances/${usuario._id}`} onClick={NavCollapseBoth}><IoIosAttach />Avances</Link>
             </li>
             <button
                 className="nav-item bg-transparent border-0 p-0 text-right"
                 onClick={() => {
                     logout();
-                    NavCollapseFalse();
+                    NavCollapseBoth();
                 }}
                 style={{ outline: 'none' }}
             >
@@ -58,14 +59,14 @@ function YesAuthenticated({ logout, NavCollapseFalse, usuario }) {
     );
 }
 
-function NotAuthenticated({ NavCollapseFalse }) {
+function NotAuthenticated({ NavCollapseBoth }) {
     return (
         <>
             <li className="nav-item">
-                <Link className="nav-link text-light" to="/login" onClick={NavCollapseFalse}><IoIosAttach />Iniciar sesión</Link>
+                <Link className="nav-link text-light" to="/login" onClick={NavCollapseBoth}><IoIosAttach />Iniciar sesión</Link>
             </li>
             <li className="nav-item dropdown">
-                <Link className="nav-link text-light" to="/logup" onClick={NavCollapseFalse}><IoIosAttach />Registrarse</Link>
+                <Link className="nav-link text-light" to="/logup" onClick={NavCollapseBoth}><IoIosAttach />Registrarse</Link>
             </li>
         </>
     );

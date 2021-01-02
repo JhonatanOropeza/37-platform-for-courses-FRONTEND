@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import Leccion from './Leccion';
+import Leccion from './3Leccion';
+import BotonEnviarRespuesta from '../../../1_Helpers/BotonEnviarRespuesta';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Contenido({ curso, changeMaterialIndex, usuario }) {
-    const [greenButton, setGreenButton] = useState(null);
+export default function Contenido({
+    curso,
+    changeMaterialIndex,
+    usuario,
+    botonInscripcionActivado,
+    generandoInscripcion,
+    functionGenerarInscripcion,
+    fecha
+}) {
     //--------------------- 3.1- Functions---------------
-    function buttonToGreen(id) {
-        setGreenButton(id);
-    }
     //---------------------- 3.2 Return------------------
     return (
         <div className="container mt-2">
@@ -23,7 +28,7 @@ export default function Contenido({ curso, changeMaterialIndex, usuario }) {
                 <li className="nav-item">
                     <a className="nav-link" id="temario-tab" data-toggle="tab" href="#temario" role="tab" aria-controls="temario" aria-selected="false">Temario</a>
                 </li>
-                {
+                {usuario &&
                     curso.NIVELES.map((nivel, i) => (
                         <li className="nav-item" key={i}>
                             <a
@@ -49,14 +54,25 @@ export default function Contenido({ curso, changeMaterialIndex, usuario }) {
             {/** ------------ 2.- Inicio cuerpo tab ------------- */}
             {/** ------------------------------------------------ */}
             <div className="tab-content bg-white border border-top-0" id="myTabContent">
-                <div className="tab-pane fade show active p-2" id="descripcion" role="tabpanel" aria-labelledby="descripcion-tab">
-                    {curso.descripcion}
+                <div className="tab-pane fade show active p-2 mb-2" id="descripcion" role="tabpanel" aria-labelledby="descripcion-tab">
+                    <p>{curso.descripcion}</p>
+                    <BotonEnviarRespuesta
+                        colorDelBoton="info"
+                        cargando={generandoInscripcion}
+                        mensajeBotonInicio="Inscribirse"
+                        mensajeCargando="Generando inscripción"
+                        mensajeBotonFinal="Te inscribiste al curso hace "
+                        botonSinPresionarFALSE={botonInscripcionActivado}
+                        functionOnClick={functionGenerarInscripcion}
+                        conFecha={true}
+                        fecha={fecha}
+                    />
                 </div>
                 <div className="tab-pane fade p-2" id="temario" role="tabpanel" aria-labelledby="temario-tab">
-                    {curso.contenido}
+                    <Temario temario={curso.temario}></Temario>
                 </div>
                 {/** ------------ Imprimiendo cada NIVEL ------------- */}
-                {
+                {usuario &&
                     curso.NIVELES.map((nivel, i) => (
                         <div
                             key={nivel._id}
@@ -69,8 +85,8 @@ export default function Contenido({ curso, changeMaterialIndex, usuario }) {
                                 nivel={nivel}
                                 changeMaterialIndex={changeMaterialIndex}
                                 usuario={usuario}
-                                greenButton={greenButton}
-                                buttonToGreen={buttonToGreen}
+                                //Para saber si msotrar o no la invitación aisncribirse
+                                botonInscripcionActivado={botonInscripcionActivado}
                             />
                         </div>
                     ))
@@ -83,3 +99,22 @@ export default function Contenido({ curso, changeMaterialIndex, usuario }) {
     );
 }
 //------------------- 4 Other components ------------------
+function Temario({ temario }) {
+    return (
+        <ul>
+            {temario.map((nivel, i) => (
+                <li className="UL-SQUARE" key={i}>
+                    {nivel[0]}
+                    <ul>
+                        {nivel.map((leccion, i) => (
+                            i > 0 &&
+                            <li className="UL-DISC" key={i}>
+                                {leccion}
+                            </li>
+                        ))}
+                    </ul>
+                </li>
+            ))}
+        </ul>
+    );
+}

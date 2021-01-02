@@ -1,15 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { MdSchool } from 'react-icons/md';
+import Axios from 'axios';
 
+import Loading from '../1_Helpers/Loading';
 import Main from '../1_Helpers/Main';
 import A1 from '../../images/cursos/A1.fw.png';
 //------------------- 1.- CSS Style && .env ---------------
+const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Avances() {
+export default function Avances({ usuario, mostrarMensaje }) {
+    const [cursosDelAlumno, setCursosDelAlumno] = useState([]);
+    const [cargando, setCargando] = useState(false);
     //--------------------- 3.1- Functions---------------
+    useEffect(() => {
+        async function cargarCursosDelAlumno() {
+            try {
+                setCargando(true);
+                const { data } = await Axios.get(baseURL + '/curso/auth/get_cursosDelAlumno');
+                console.log(data.result);
+                setCursosDelAlumno(data.result);
+                setCargando(false);
+            } catch (error) {
+                setCargando(false);
+                mostrarMensaje(error.response.data.message, 1);
+            }
+        }
+        cargarCursosDelAlumno();
+    }, [mostrarMensaje])
     //---------------------- 3.2 Return------------------
+    if (cargando) {
+        return (
+            <Main X_Y_Centered={true}>
+                <Loading />
+            </Main>
+        );
+    }
     return (
         <Main>
             <div className="container mt-3">
@@ -17,8 +44,8 @@ export default function Avances() {
                 <div>
                     <h4><BsFillPersonFill /> Datos del alumno</h4>
                     <ul className="border border-secondary rounded bg-white">
-                        <li>Nombre: </li>
-                        <li>Correo: </li>
+                        <li>Nombre: {usuario.nombre}</li>
+                        <li>Correo: {usuario.correo}</li>
                     </ul>
                 </div>
                 {/** CURSOS DEL ALUMNO*/}

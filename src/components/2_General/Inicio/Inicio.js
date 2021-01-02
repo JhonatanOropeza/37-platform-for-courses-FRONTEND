@@ -47,7 +47,7 @@ export default function Inicio({ usuario, mostrarMensaje }) {
         <Main X_Y_Centered={false}>
             <Carousel></Carousel>
             <Categorias cargarCursosPorCategoria={cargarCursosPorCategoria} mostrarMensaje={mostrarMensaje}></Categorias>
-            <Cursos mostrarMensaje={mostrarMensaje} cursos={cursos} tituloCursos={tituloCursos}></Cursos>
+            <Cursos usuario={usuario} mostrarMensaje={mostrarMensaje} cursos={cursos} tituloCursos={tituloCursos}></Cursos>
         </Main>
     );
 }
