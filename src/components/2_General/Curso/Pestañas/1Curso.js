@@ -4,9 +4,8 @@ import Axios from 'axios';
 import Main from '../../../1_Helpers/Main';
 import Contenido from './2Contenido';
 import SignificadoColores from '../SignificadoColores';
-import Material from '../Material';
+import Material from '../MaterialInicio';
 import Loading from '../../../1_Helpers/Loading';
-
 //------------------- 1.- CSS Style && .env ---------------
 import '../../../../../node_modules/video-react/dist/video-react.css'
 const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
@@ -26,26 +25,37 @@ export default function Curso({ mostrarMensaje, match, usuario }) {
         async function getCursos() {
             try {
                 setCargandoCurso(true);
-                const { data: cursoActual } = await Axios.get(baseURL + `/curso/getCurso/${idCurso}`);
-                //Cargamos todos los datos del curso a mostrar en pantalla
-                setCurso(cursoActual.result);
-                //Cargamos el 1er material de todo el curso para mostrarlo en pantalla
-                let materialBienvenida = {
-                    linkOfMaterial: cursoActual.result.videoBienvenida,
-                    tipo: 1
-                }
-                setMaterialIndex(materialBienvenida);
-                const { data: inscripcion } = await Axios.get(baseURL + `/alumno/auth/identificarInscripcion/${cursoActual.result._id}`);
+                //1.- Verificando si tenemos inscripción
+                const { data: inscripcion } = await Axios.get(baseURL + `/alumno/auth/identificarInscripcion/${idCurso}`);
                 if (inscripcion.result.length === 0) {
                     //No tenemos inscripción, el bloqueo "materiales" debe estar en TRUE
+                    const { data: cursoActual } = await Axios.get(baseURL + `/curso/getCurso/${idCurso}`);
+                    //Cargamos todos los datos del curso a mostrar en pantalla
+                    setCurso(cursoActual.result);
                     setBloquearMateriales(true);
                     setBotonInscripcionActivado(false);
+                    //Cargamos el 1er material de todo el curso para mostrarlo en pantalla
+                    let materialBienvenida = {
+                        linkOfMaterial: cursoActual.result.videoBienvenida,
+                        tipo: 1//Es 1 porque siempre será el video de bienvenida
+                    }
+                    setMaterialIndex(materialBienvenida);
                 } else {
                     //Si tenemos inscripción, el bloqueo de "materiales" debe estar en FALSE
+                    const { data: cursoActual } = await Axios.get(baseURL + `/curso/auth/getCursoOfUser/${idCurso}`);
+                    //Cargamos todos los datos del curso a mostrar en pantalla
+                    setCurso(cursoActual.result);
                     setFecha(inscripcion.result.fechaInscripcion);
                     setBloquearMateriales(false);
                     setBotonInscripcionActivado(true);
+                    //Cargamos el 1er material de todo el curso para mostrarlo en pantalla
+                    let materialBienvenida = {
+                        linkOfMaterial: cursoActual.result.videoBienvenida,
+                        tipo: 1//Es 1 porque siempre será el video de bienvenida
+                    }
+                    setMaterialIndex(materialBienvenida);
                 }
+
                 setCargandoCurso(false);
             } catch (error) {
                 setCargandoCurso(false);
@@ -54,14 +64,72 @@ export default function Curso({ mostrarMensaje, match, usuario }) {
             }
         }
         getCursos();
-    }, [mostrarMensaje, idCurso])
+    }, [mostrarMensaje, idCurso]);
 
-    function changeMaterialIndex(dataMaterial) {
-        if (bloquearMateriales) {
-            return;
-        }
-        setMaterialIndex(dataMaterial);
+    //Se ejecuta cuando damos click a ún material que no ha sido visualizado
+    function actualizarMaterialDelCurso(materialToChange) {
+        setCurso(() => {
+            //1.- Iterando para llegar a cada material
+            function recorridoParaActualizar() {
+                let niveles = curso.NIVELES;
+                niveles.forEach((nivel => {
+                    nivel.LECCIONES.forEach(leccion => {
+                        leccion.MATERIALES.forEach(material => {
+                            // 1.2.- Actualizando el nivel
+                            if (material._id === materialToChange._id) {
+                                material.estado = -1;
+                            }
+                            return material;
+                        })
+                    })
+                }));
+                return niveles;
+            }
+            const nivelesActualizados = recorridoParaActualizar();
+            var aux = {};
+            aux = curso;
+            delete aux.NIVELES;
+            aux.NIVELES = nivelesActualizados;
+            return aux;
+        })
+        setMaterialIndex(materialToChange);
     }
+
+    //Se ejecuta después de que un examen fue contestado y calificado
+    function actualizarExamenDelCurso(materialToChange, nuevaCalificacion) {
+        //LAs siguientes dos variables no ayduaran a mostrar en la pantalla principal
+        //EL er material de la lección que se presento el examen.
+        let numeroDeNivel = 0;
+        let numeroDeLeccion = 0;
+        //1.- Iterando para llegar a cada material
+        function recorridoParaActualizar() {
+            let niveles = curso.NIVELES;
+            niveles.forEach(((nivel, i) => {
+                nivel.LECCIONES.forEach((leccion, j) => {
+                    leccion.MATERIALES.forEach(material => {
+                        // 1.2.- Actualizando el nivel
+                        if (material._id === materialToChange._id) {
+                            material.estado = nuevaCalificacion;
+                            numeroDeNivel = i;
+                            numeroDeLeccion = j;
+                        }
+                        return material;
+                    })
+                })
+            }));
+            return niveles;
+        }
+        const nivelesActualizados = recorridoParaActualizar();
+        var aux = {};
+        aux = curso;
+        delete aux.NIVELES;
+        aux.NIVELES = nivelesActualizados;
+        //Actualizamos el curso
+        setCurso(aux);
+        //Colocamos en pantalla como amterial visible el primer amterial de todo el nivel
+        setMaterialIndex(nivelesActualizados[numeroDeNivel].LECCIONES[numeroDeLeccion].MATERIALES[0]);
+    }
+
     async function functionGenerarInscripcion() {
         try {
             setGenerandoInscripcion(true);
@@ -79,6 +147,10 @@ export default function Curso({ mostrarMensaje, match, usuario }) {
             console.log(error);
         }
     }
+
+    function chanageMaterialInicio(newMaterial) {
+        setMaterialIndex(newMaterial)
+    }
     //---------------------- 3.2 Return------------------
     if (cargandoCurso) {
         return (
@@ -95,14 +167,18 @@ export default function Curso({ mostrarMensaje, match, usuario }) {
                 {/** inicio TAB */}
                 <Contenido
                     curso={curso}
-                    changeMaterialIndex={changeMaterialIndex}
+                    actualizarMaterialDelCurso={actualizarMaterialDelCurso}
+                    actualizarExamenDelCurso={actualizarExamenDelCurso}
                     usuario={usuario}
-                    mostrarMensaje={mostrarMensaje}
+                    chanageMaterialInicio={chanageMaterialInicio}
                     //Props para el boton de inscripción
                     generandoInscripcion={generandoInscripcion}
                     botonInscripcionActivado={botonInscripcionActivado}
                     functionGenerarInscripcion={functionGenerarInscripcion}
                     fecha={fecha}
+                    //Props para boton de materiales y generar materialAlumno
+                    mostrarMensaje={mostrarMensaje}
+                    bloquearMateriales={bloquearMateriales}
                 />
                 {/** fin TAB */}
                 {

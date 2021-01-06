@@ -10,7 +10,7 @@ import BotonEnviarRespuesta from '../../../1_Helpers/BotonEnviarRespuesta';
 const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Examen({ leccion }) {
+export default function Examen({ leccion, classes, actualizarExamenDelCurso, materialExamen }) {
     const [show, setShow] = useState(false);
     const [preguntas, setPreguntas] = useState([]);
     const [cargandoPreguntas, setCargandoPreguntas] = useState(false);
@@ -47,6 +47,11 @@ export default function Examen({ leccion }) {
     }
 
     const handleClose = () => {
+        //Verificando si el examen ya fue calificado o no es
+        if (examPoints !== null) {
+            console.log('actualizarCurso')
+            actualizarExamenDelCurso(materialExamen, examPoints);
+        }
         let reiniciarRespuestas = [[null, null], [null, null], [null, null], [null, null], [null, null]];
         setRespuestas(reiniciarRespuestas);
         let reiniciarRadioButtons = [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]];
@@ -76,6 +81,7 @@ export default function Examen({ leccion }) {
         auxRadioButtons[index][numberOfAnswer] = true;
         setRadioButtons(auxRadioButtons);
     }
+
     async function calificarExamen() {
         let bandera = false;
         //Verify if a question hasn´t been answered
@@ -88,8 +94,14 @@ export default function Examen({ leccion }) {
             //The back qualify the exam
             try {
                 setCalificandoExamen(true);
+                //A) Generando calificación del examen:
                 const { data } = await Axios.post(baseURL + `/pregunta/auth/qualifyTest/${leccion._id}`, respuestas);
-                setCalificacionDeRespuestas(data.qualification)
+                //B) Generando materialAlumno para el examen presentado, si ya existe, se actualiza
+                await Axios.post(baseURL + `/ZRA/auth/materialAlumno/post_materialAlumnoExamen/${materialExamen._id}`, {
+                    calificacion: data.examPoints
+                });
+                //C) Cambiando los estados para mostrar resultados del examn
+                setCalificacionDeRespuestas(data.qualification);
                 setExamPoints(data.examPoints);
                 setEdoInicialBotonCalificarExamen(true);
                 setDisabledInput(true);
@@ -102,14 +114,14 @@ export default function Examen({ leccion }) {
     }
     //---------------------- 3.2 Return------------------
     return (
-        <div className="col-3 col-md-3 col-lg-2  text-center pt-1 pb-1 pl-1 pr-1">
+        <div className="text-center">
             {/** Button trigger modal */}
             <button
                 onClick={() => { handleShow(); loadingQuestions() }}
                 type="button"
                 className="p-0"
                 style={{ border: '0px' }}>
-                <img src={examenChico} alt="" className="bg-danger rounded img-fluid" />
+                <img src={examenChico} alt="" className={classes} />
             </button>
             {/** Modal */}
             <Modal size="lg" show={show} onHide={handleClose}>
@@ -118,7 +130,7 @@ export default function Examen({ leccion }) {
                 </Modal.Header>
                 <Modal.Body>
 
-                    <MostrarCalificaion examPoints={examPoints} />
+                    <MostrarCalificacion examPoints={examPoints} />
 
                     {
                         cargandoPreguntas
@@ -141,7 +153,7 @@ export default function Examen({ leccion }) {
                             )
                     }
 
-                    <MostrarCalificaion examPoints={examPoints} />
+                    <MostrarCalificacion examPoints={examPoints} />
 
                 </Modal.Body>
                 <Modal.Footer>
@@ -232,7 +244,7 @@ function IconoRespuesta({ calificacionDeRespuestas }) {
     }
 }
 
-function MostrarCalificaion({ examPoints }) {
+function MostrarCalificacion({ examPoints }) {
     if (examPoints === null) {
         return <></>
     } else {

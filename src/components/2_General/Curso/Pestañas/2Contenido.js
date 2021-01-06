@@ -7,12 +7,16 @@ import BotonEnviarRespuesta from '../../../1_Helpers/BotonEnviarRespuesta';
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
 export default function Contenido({
     curso,
-    changeMaterialIndex,
+    actualizarMaterialDelCurso,
+    actualizarExamenDelCurso,
     usuario,
     botonInscripcionActivado,
     generandoInscripcion,
     functionGenerarInscripcion,
-    fecha
+    fecha,
+    mostrarMensaje,
+    bloquearMateriales,
+    chanageMaterialInicio
 }) {
     //--------------------- 3.1- Functions---------------
     //---------------------- 3.2 Return------------------
@@ -54,8 +58,10 @@ export default function Contenido({
             {/** ------------ 2.- Inicio cuerpo tab ------------- */}
             {/** ------------------------------------------------ */}
             <div className="tab-content bg-white border border-top-0" id="myTabContent">
+                {/** ------------ A) Mostrar descripción ------------- */}
                 <div className="tab-pane fade show active p-2 mb-2" id="descripcion" role="tabpanel" aria-labelledby="descripcion-tab">
                     <p>{curso.descripcion}</p>
+                    {/** ------------ Boton para inscribirse ------------- */}
                     <BotonEnviarRespuesta
                         colorDelBoton="info"
                         cargando={generandoInscripcion}
@@ -68,10 +74,11 @@ export default function Contenido({
                         fecha={fecha}
                     />
                 </div>
+                {/** ------------ B) Mostrar temario ------------- */}
                 <div className="tab-pane fade p-2" id="temario" role="tabpanel" aria-labelledby="temario-tab">
                     <Temario temario={curso.temario}></Temario>
                 </div>
-                {/** ------------ Imprimiendo cada NIVEL ------------- */}
+                {/** ------------ C) Imprimiendo cada NIVEL ------------- */}
                 {usuario &&
                     curso.NIVELES.map((nivel, i) => (
                         <div
@@ -83,10 +90,15 @@ export default function Contenido({
                         >
                             <Leccion
                                 nivel={nivel}
-                                changeMaterialIndex={changeMaterialIndex}
+                                actualizarMaterialDelCurso={actualizarMaterialDelCurso}
+                                actualizarExamenDelCurso={actualizarExamenDelCurso}
                                 usuario={usuario}
-                                //Para saber si msotrar o no la invitación aisncribirse
+                                chanageMaterialInicio={chanageMaterialInicio}
+                                //Para saber si msotrar o no la invitación a inscribirse
                                 botonInscripcionActivado={botonInscripcionActivado}
+                                //Props para boton de materiales y generar materialAlumno
+                                mostrarMensaje={mostrarMensaje}
+                                bloquearMateriales={bloquearMateriales}
                             />
                         </div>
                     ))
