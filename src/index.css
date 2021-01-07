@@ -136,17 +136,6 @@ body::-webkit-scrollbar-thumb {
   min-height: 50px;
 }
 
-.AVANCES_ICON_CENTERED{
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 55%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-}
 /*     EXAMEN-MODAL    */
 .modal-header{
   background: #007bff;
@@ -202,3 +191,57 @@ ul .UL-SQUARE{
 ul .UL-DISC{
   list-style: disc;
 } 
+
+/*----------------------*/
+/*        AVANCES       */
+/*----------------------*/
+.AVANCES_CONTAINER_PRINCIPAL{
+  max-width: 800px;
+}
+
+.AVANCES_ICON_CENTERED{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+.BARRA_AVANCES_NARANJA{
+  background-color: #F3680B;
+}
+
+/*----------------------*/
+/*        CURSOS       */
+/*----------------------*/
+.CURSOS_MENSAJE{
+  padding: 1rem;
+  max-width: 400px;
+  max-height: 200px;
+  border-radius: 25px;
+  border: 1px solid #007bff;
+  background-color: #e9ecef;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+
+/*----------------------*/
+/*        CURSOS       */
+/*----------------------*/
+.MENSAJE_GENERICO{
+  padding: 1rem;
+  max-width: 400px;
+  max-height: 200px;
+  border-radius: 25px;
+  border: 1px solid #007bff;
+  background-color: #e9ecef;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}

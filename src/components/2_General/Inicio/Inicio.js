@@ -13,9 +13,9 @@ const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
 export default function Inicio({ usuario, mostrarMensaje }) {
     const [cursos, setCursos] = useState([]);
-    const [cargandoCursos, setCargandoCursos] = useState(true);
+    const [cargandoCursos, setCargandoCursos] = useState(false);
+    const [cargandoCursosPorCategorias, setCargandoCursosPorCategorias] = useState(false);
     const [tituloCursos, setTituloCursos] = useState('Todos los cursos');
-    const [cargandoClasificacion, setCargandoClasificacion] = useState(false);
     //--------------------- 3.1- Functions---------------
     useEffect(() => {
         async function cargarCursos() {
@@ -34,10 +34,12 @@ export default function Inicio({ usuario, mostrarMensaje }) {
     }, [mostrarMensaje]);
 
     async function cargarCursosPorCategoria(categoria) {
+        setCargandoCursosPorCategorias(true);
         const { data } = await Axios.post(baseURL + '/curso/getCursosPorCategoria',
             { categoria });
         setTituloCursos(`Cursos de la categoría: ${categoria}`);
         setCursos(data.result);
+        setCargandoCursosPorCategorias(false);
     }
     //---------------------- 3.2 Return------------------
     if (cargandoCursos) {
@@ -47,7 +49,16 @@ export default function Inicio({ usuario, mostrarMensaje }) {
         <Main X_Y_Centered={false}>
             <Carousel></Carousel>
             <Categorias cargarCursosPorCategoria={cargarCursosPorCategoria} mostrarMensaje={mostrarMensaje}></Categorias>
-            <Cursos usuario={usuario} mostrarMensaje={mostrarMensaje} cursos={cursos} tituloCursos={tituloCursos}></Cursos>
+            {
+                cargandoCursosPorCategorias
+                ? (
+                    <div className="d-flex justify-content-center p-2">
+                        <Loading tamano={120}/>
+                    </div>
+                ) : (
+                    <Cursos usuario={usuario} mostrarMensaje={mostrarMensaje} cursos={cursos} tituloCursos={tituloCursos}></Cursos>
+                )
+            }
         </Main>
     );
 }

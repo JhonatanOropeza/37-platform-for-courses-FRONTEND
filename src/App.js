@@ -33,7 +33,7 @@ function App() {
   );
   //--------------------- 3.1- Functions---------------
   useEffect(() => {
-    //En caso de que haya toekn en LocalStorage
+    //En caso de que haya token en LocalStorage
     async function cargarUsuario() {
       if (!getToken()) {
         setCargandoUsuario(false);

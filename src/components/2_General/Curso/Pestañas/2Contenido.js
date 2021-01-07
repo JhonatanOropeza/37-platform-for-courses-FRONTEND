@@ -83,7 +83,7 @@ export default function Contenido({
                     curso.NIVELES.map((nivel, i) => (
                         <div
                             key={nivel._id}
-                            className="tab-pane fade"
+                            className="tab-pane fade p-2"
                             id={`nivel${i + 1}`}
                             role="tabpanel"
                             aria-labelledby={`nivel${i + 1}-tab`}

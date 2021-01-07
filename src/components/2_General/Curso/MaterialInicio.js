@@ -13,13 +13,16 @@ export default function Material({ materialIndex }) {
         <>
             {tipo === 1
                 ? (
-                    <Player autoplay={false} className="curso_video" key={linkOfMaterial}>
-                        <ControlBar autoHide={false} />
-                        <source src={linkOfMaterial} type="video/mp4" />
-                    </Player>
+                    <div className="curso_video">
+                        <Player autoplay={false} key={linkOfMaterial}>
+                            <ControlBar autoHide={false} />
+                            <source src={linkOfMaterial} type="video/mp4" />
+                        </Player>
+                    </div>
+
                 ) : (
                     <div className="curso_video">
-                        <object data={linkOfMaterial} type="application/pdf" width="100%" height="500vh" aria-labelledby="label1"/>
+                        <object data={linkOfMaterial} type="application/pdf" width="100%" height="500vh" aria-labelledby="label1" />
                     </div>
                 )
             }

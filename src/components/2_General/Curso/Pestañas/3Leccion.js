@@ -28,7 +28,7 @@ export default function Leccion({
                         <div className="col-4 col-md-2 col-lg-2  CURSO_CONTAINER_LECCION">
                             <h6>{leccion.nombre}</h6>
                         </div>
-                        <div className="col-12 col-md-10 col-lg-10 border border-dark">
+                        <div className="col-12 col-md-10 col-lg-10 mb-2">
                             <div className="row">
 
                                 <MaterialIcon
