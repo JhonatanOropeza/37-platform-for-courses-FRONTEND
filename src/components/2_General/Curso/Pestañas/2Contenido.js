@@ -2,6 +2,8 @@ import React from 'react';
 
 import Leccion from './3Leccion';
 import BotonEnviarRespuesta from '../../../1_Helpers/BotonEnviarRespuesta';
+
+import { useUsuario } from '../../../0_useContext/usuario-context';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
@@ -9,7 +11,6 @@ export default function Contenido({
     curso,
     actualizarMaterialDelCurso,
     actualizarExamenDelCurso,
-    usuario,
     botonInscripcionActivado,
     generandoInscripcion,
     functionGenerarInscripcion,
@@ -18,6 +19,7 @@ export default function Contenido({
     bloquearMateriales,
     chanageMaterialInicio
 }) {
+    const { usuario } = useUsuario();
     //--------------------- 3.1- Functions---------------
     //---------------------- 3.2 Return------------------
     return (
@@ -92,7 +94,6 @@ export default function Contenido({
                                 nivel={nivel}
                                 actualizarMaterialDelCurso={actualizarMaterialDelCurso}
                                 actualizarExamenDelCurso={actualizarExamenDelCurso}
-                                usuario={usuario}
                                 chanageMaterialInicio={chanageMaterialInicio}
                                 //Para saber si msotrar o no la invitación a inscribirse
                                 botonInscripcionActivado={botonInscripcionActivado}

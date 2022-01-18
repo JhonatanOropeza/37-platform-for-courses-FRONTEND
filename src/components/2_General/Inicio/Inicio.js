@@ -11,7 +11,7 @@ import Loading from '../../1_Helpers/Loading';
 const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Inicio({ usuario, mostrarMensaje }) {
+export default function Inicio({ mostrarMensaje }) {
     const [cursos, setCursos] = useState([]);
     const [cargandoCursos, setCargandoCursos] = useState(false);
     const [cargandoCursosPorCategorias, setCargandoCursosPorCategorias] = useState(false);
@@ -56,7 +56,7 @@ export default function Inicio({ usuario, mostrarMensaje }) {
                         <Loading tamano={120}/>
                     </div>
                 ) : (
-                    <Cursos usuario={usuario} mostrarMensaje={mostrarMensaje} cursos={cursos} tituloCursos={tituloCursos}></Cursos>
+                    <Cursos  mostrarMensaje={mostrarMensaje} cursos={cursos} tituloCursos={tituloCursos}></Cursos>
                 )
             }
         </Main>

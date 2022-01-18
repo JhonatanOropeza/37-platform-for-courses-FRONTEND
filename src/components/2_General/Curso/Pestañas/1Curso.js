@@ -11,7 +11,7 @@ import '../../../../../node_modules/video-react/dist/video-react.css'
 const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Curso({ mostrarMensaje, match, usuario }) {
+export default function Curso({ mostrarMensaje, match}) {
     const idCurso = match.params.id;
     const [curso, setCurso] = useState(null);
     const [cargandoCurso, setCargandoCurso] = useState(true);
@@ -169,7 +169,6 @@ export default function Curso({ mostrarMensaje, match, usuario }) {
                     curso={curso}
                     actualizarMaterialDelCurso={actualizarMaterialDelCurso}
                     actualizarExamenDelCurso={actualizarExamenDelCurso}
-                    usuario={usuario}
                     chanageMaterialInicio={chanageMaterialInicio}
                     //Props para el boton de inscripción
                     generandoInscripcion={generandoInscripcion}

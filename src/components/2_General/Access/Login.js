@@ -5,10 +5,13 @@ import ImagenUsuario from '../../../images/iconos/usuario.png'
 import Main from '../../1_Helpers/Main'
 import FacebookButton from './FacebookButton';
 import GoogleButton from './GoogleButton';
+
+import {useUsuario} from '../../0_useContext/usuario-context';
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Login({login, mostrarMensaje, logAuth0}) {
+export default function Login({mostrarMensaje}) {
+    const {login, logAuth0} = useUsuario();
     const [datosLogin, setDatosLogin] = useState({
         correo: '',
         contrasena:''

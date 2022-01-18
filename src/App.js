@@ -1,6 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Loading from './components/1_Helpers/Loading';
@@ -10,21 +9,24 @@ import Navbar from './components/1_Helpers/Navbar';
 import Inicio from './components/2_General/Inicio/Inicio';
 import Curso from './components/2_General/Curso/Pestañas/1Curso';
 import Avances from './components/3_Inside/Avances';
-import Prueba from './components/3_Inside/Prueba';
 import Login from './components/2_General/Access/Login';
 import Logup from './components/2_General/Access/Logup';
 import Footer from './components/1_Helpers/Footer';
 
-//------------------- 1.- CSS Style && .env ---------------
-import { setToken, getToken, initAxiosInterceptors, deleteToken } from './helpers/auth_helpers';
-const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
-//------------------- 2.- Some functions ------------------
+import { UsuarioProvider, useUsuario } from './components/0_useContext/usuario-context';
+import { initAxiosInterceptors } from './helpers/auth_helpers';
 //En caso de tener token, agrega datos del usuario al headers para conocer el usuario
 initAxiosInterceptors();
+
+const exportarApp = () =>
+  <UsuarioProvider>
+    <App/>
+  </UsuarioProvider>
+
+export default exportarApp;
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
 function App() {
-  const [usuario, setUsuario] = useState(null);
-  const [cargandoUsuario, setCargandoUsuario] = useState(true);
+  const { usuario, cargandoUsuario } = useUsuario();
   const [datosMensaje, setDatosMensaje] = useState(
     {
       mensaje: null,
@@ -32,63 +34,6 @@ function App() {
     }
   );
   //--------------------- 3.1- Functions---------------
-  useEffect(() => {
-    //En caso de que haya token en LocalStorage
-    async function cargarUsuario() {
-      if (!getToken()) {
-        setCargandoUsuario(false);
-        return;
-      }
-      try {
-        const { data } = await Axios.get(baseURL + '/alumno/auth/whoami');
-        setUsuario(data.user);
-        setCargandoUsuario(false);
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    cargarUsuario();
-  }, []);
-
-  async function login(correo, contrasena) {
-    const { data } = await Axios.post(baseURL + '/alumno/authJWT/login', {
-      correo,
-      contrasena
-    });
-    setUsuario(data.user);
-    setToken(data.token);
-  }
-
-  async function logup(nombre, apellidos, correo, contrasena) {
-    const { data } = await Axios.post(baseURL + '/alumno/authJWT/logup', {
-      nombre,
-      apellidos,
-      correo,
-      contrasena
-    });
-    mostrarMensaje(data.mensaje, 3);
-  }
-
-  function logout() {
-    setUsuario(null);
-    deleteToken();
-  }
-
-  async function logAuth0(token, tipo) {
-    if (tipo === 'facebook') {
-      const { data } = await Axios.post(baseURL + `/alumno/authFB/log/token?access_token=${token}`);
-      console.log('Log with Face');
-      setUsuario(data);
-      setToken(token);
-    }
-    if (tipo === 'google') {
-      const { data } = await Axios.post(baseURL + `/alumno/authGoogle/log/token?access_token=${token}`);
-      console.log('Log with Google');
-      setUsuario(data);
-      setToken(token);
-    }
-  }
-
   function mostrarMensaje(mensaje, tipo) {
     setDatosMensaje({
       ...datosMensaje,
@@ -112,14 +57,14 @@ function App() {
 
   return (
     <Router>
-      <Navbar usuario={usuario} logout={logout} />
+      <Navbar />
       <Mensaje datosMensaje={datosMensaje} ocultarMensaje={ocultarMensaje} />
       {
         usuario
           ? (
-            <YESAuthenticated usuario={usuario} mostrarMensaje={mostrarMensaje} />
+            <YESAuthenticated mostrarMensaje={mostrarMensaje} />
           ) : (
-            <NOTAuthenticated usuario={usuario} mostrarMensaje={mostrarMensaje} login={login} logup={logup} logAuth0={logAuth0} />
+            <NOTAuthenticated mostrarMensaje={mostrarMensaje} />
           )
       }
       <Footer></Footer>
@@ -127,32 +72,27 @@ function App() {
   );
 }
 
-export default App;
 //------------------- 4 Other components ------------------
-function YESAuthenticated({ usuario, mostrarMensaje }) {
+function YESAuthenticated({ mostrarMensaje }) {
   return (
     <Switch>
       <Route
-        path="/prueba/:usuario"
-        render={props => <Prueba {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Prueba>}
-      />
-      <Route
         path="/advances/:usuario"
-        render={props => <Avances {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Avances>}
+        render={props => <Avances {...props} mostrarMensaje={mostrarMensaje} />}
       />
       <Route
         path="/curso/:id"
-        render={props => <Curso {...props} usuario={usuario} mostrarMensaje={mostrarMensaje} />}
+        render={props => <Curso {...props} mostrarMensaje={mostrarMensaje} />}
       />
       <Route
         path="/"
-        render={props => <Inicio {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}/>}
+        render={props => <Inicio {...props} mostrarMensaje={mostrarMensaje} />}
         default
       />
     </Switch>
   );
 }
-function NOTAuthenticated({ usuario, mostrarMensaje, login, logup, logAuth0 }) {
+function NOTAuthenticated({ mostrarMensaje }) {
   return (
     <Switch>
       <Route
@@ -161,15 +101,15 @@ function NOTAuthenticated({ usuario, mostrarMensaje, login, logup, logAuth0 }) {
       />
       <Route
         path="/login"
-        render={props => <Login {...props} mostrarMensaje={mostrarMensaje} login={login} logAuth0={logAuth0}></Login>}
+        render={props => <Login {...props} mostrarMensaje={mostrarMensaje} />}
       />
       <Route
         path="/logup"
-        render={props => <Logup {...props} mostrarMensaje={mostrarMensaje} logup={logup} logAuth0={logAuth0}></Logup>}
+        render={props => <Logup {...props} mostrarMensaje={mostrarMensaje} />}
       />
       <Route
         path="/"
-        render={props => <Inicio {...props} usuario={usuario} mostrarMensaje={mostrarMensaje}></Inicio>}
+        render={props => <Inicio {...props} mostrarMensaje={mostrarMensaje} />}
         default
       />
     </Switch>

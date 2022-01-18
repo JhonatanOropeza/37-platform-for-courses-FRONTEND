@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoIosAttach } from "react-icons/io";
 
+import {useUsuario} from '../0_useContext/usuario-context';
+
 //------------------- 1.- CSS Style && .env ---------------
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Navbar({ usuario, logout }) {
+export default function Navbar() {
+    const {usuario, logout } = useUsuario();
     const [isNavCollapsed, setIsNavCollapsed] = useState(false);
     const NavCollapseFalse = () => { setIsNavCollapsed(false); }
     const NavCollapseTrue = () => { setIsNavCollapsed(true); }

@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom';
 
 import Loading from '../1_Helpers/Loading';
 import Main from '../1_Helpers/Main';
+
+import { useUsuario } from '../0_useContext/usuario-context';
 //------------------- 1.- CSS Style && .env ---------------
 const baseURL = process.env.REACT_APP_RUTA_PRINCIPAL;
 //------------------- 2.- Some functions ------------------
 //------------------- 3.- PRINCIAPAL COMPONENT ------------
-export default function Avances({ usuario, mostrarMensaje }) {
+export default function Avances({ mostrarMensaje }) {
+    const { usuario } = useUsuario();
     const [cursosDelAlumno, setCursosDelAlumno] = useState([]);
     const [cargando, setCargando] = useState(false);
     //--------------------- 3.1- Functions---------------
@@ -62,32 +65,32 @@ export default function Avances({ usuario, mostrarMensaje }) {
                                 </div>
                             </div>
                         ) : (
-                            
-                                cursosDelAlumno.map(curso => (
-                                    <div className="row border border-secondary rounded bg-white pt-1 pb-2 mb-2" key={curso._id}>
-                                        <div className="col-12 text-center ">
-                                            <h3>{curso.nombre}</h3>
-                                        </div>
-                                        <div className="col-12 col-md-6 ">
-                                            <div className="row">
-                                                <Link to={`/curso/${curso._id}`} className="col-4 p-0">
-                                                    <img src={curso.linkOfIcon} alt="" className="rounded AVANCES_ICON_CENTERED" />
-                                                </Link>
-                                                <div className="col-8">
-                                                    <p className="m-0">Total de nivels: {curso.totalNiveles}</p>
-                                                    <p className="m-0">Total de lecciones: {curso.totalLecciones}</p>
-                                                    <p className="m-0">Evaluaciones a presentar: {curso.totalLecciones}</p>
-                                                    <p className="m-0">Evaluaciones presentados: {curso.evalPresentadas}</p>
-                                                    <p className="m-0">Evaluciones acreditadas: {curso.evalAcreditadas}</p>
-                                                </div>
+
+                            cursosDelAlumno.map(curso => (
+                                <div className="row border border-secondary rounded bg-white pt-1 pb-2 mb-2" key={curso._id}>
+                                    <div className="col-12 text-center ">
+                                        <h3>{curso.nombre}</h3>
+                                    </div>
+                                    <div className="col-12 col-md-6 ">
+                                        <div className="row">
+                                            <Link to={`/curso/${curso._id}`} className="col-4 p-0">
+                                                <img src={curso.linkOfIcon} alt="" className="rounded AVANCES_ICON_CENTERED" />
+                                            </Link>
+                                            <div className="col-8">
+                                                <p className="m-0">Total de nivels: {curso.totalNiveles}</p>
+                                                <p className="m-0">Total de lecciones: {curso.totalLecciones}</p>
+                                                <p className="m-0">Evaluaciones a presentar: {curso.totalLecciones}</p>
+                                                <p className="m-0">Evaluaciones presentados: {curso.evalPresentadas}</p>
+                                                <p className="m-0">Evaluciones acreditadas: {curso.evalAcreditadas}</p>
                                             </div>
                                         </div>
-                                        <div className="col-12 col-md-6">
-                                            {/** Se multiplica por 10 para obtener el avance entre 0 y 100% */}
-                                            <BarraAvanceDelCurso puntuacion={curso.puntuacion * 10} />
-                                        </div>
                                     </div>
-                                ))
+                                    <div className="col-12 col-md-6">
+                                        {/** Se multiplica por 10 para obtener el avance entre 0 y 100% */}
+                                        <BarraAvanceDelCurso puntuacion={curso.puntuacion * 10} />
+                                    </div>
+                                </div>
+                            ))
                         )
                     }
 
