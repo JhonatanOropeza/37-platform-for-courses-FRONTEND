@@ -36,18 +36,15 @@ export default function Logup({ mostrarMensaje}) {
         if (enviandoPeticion) { return }
         try {
             setEnviandoPeticion(true);
-            console.log('1');
             const { data } = await Axios.post(baseURL + '/alumno/authJWT/logup', {
                 nombre: datosLogup.nombre,
                 apellidos: datosLogup.apellidos,
                 correo: datosLogup.correo,
                 contrasena: datosLogup.contrasena
             });
-            console.log('2.1')
             setEnviandoPeticion(false);
             mostrarMensaje(data.message, 3)
         } catch (error) {
-            console.log('2.2')
             setEnviandoPeticion(false);
             mostrarMensaje(error.response.data.message, 1);
             console.log(error)

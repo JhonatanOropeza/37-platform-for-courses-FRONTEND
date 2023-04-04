@@ -10,15 +10,15 @@ export default function Mensaje({ datosMensaje, ocultarMensaje }) {
     let classesIcon = '';
     if (datosMensaje.tipo === 1) {
         //Si el tipo de mensaje es de error
-        classesDiv = 'alert alert-danger d-flex justify-content-center p-1 m-0';
+        classesDiv = 'alert alert-danger p-1 m-0 text-center';
         classesIcon = 'MENSAJE_DE_ALERTA_BOTON_1';
     } else if (datosMensaje.tipo === 2) {
         //Si el tipo de error es de advertencia
-        classesDiv = 'alert alert-warning d-flex justify-content-center p-1 m-0';
+        classesDiv = 'alert alert-warning p-1 m-0 text-center';
         classesIcon = 'MENSAJE_DE_ALERTA_BOTON_2';
     } else if (datosMensaje.tipo === 3) {
         //Si el tipo de error es de "éxito"
-        classesDiv = 'alert alert-success d-flex justify-content-center p-1 m-0';
+        classesDiv = 'alert alert-success p-1 m-0 text-center';
         classesIcon = 'MENSAJE_DE_ALERTA_BOTON_3';
     }
     //---------------------- 3.2 Return------------------

@@ -69,7 +69,7 @@ export default function Login({mostrarMensaje}) {
                 {/** ------------------------------------- */}
                 {/**                GOOGLE               */}
                 {/** ------------------------------------- */}
-                <GoogleButton logAuth0={logAuth0} mostrarMensaje={mostrarMensaje}/>
+                {/* <GoogleButton logAuth0={logAuth0} mostrarMensaje={mostrarMensaje}/> */}
             </div>
         </Main>
     );
